@@ -1,0 +1,3 @@
+Building a flume interceptor does not look too complex. You can find some examples, howtos or cookbooks around. The issue is that they all explain the specificities of the interceptor, leaving a python/perl guy like me in the dark about maven, classpaths or imports. This posts aims to correct this. This will describe the bare minimum to get it working, but I link to more documentation if you want to go deeper.
+
+This the code accompanying a blog post at http://thisdataguy.com/2014/02/07/how-to-build-a-full-flume-interceptor-by-a-non-java-developer/
