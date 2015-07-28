@@ -1,0 +1,43 @@
+### ... Loads of things before
+
+accounts::config::users:
+# See full doc in the Readme of the accounts module
+# example:
+#   # List of roles the user belongs to. Not necessarily matched to linux groups
+#   # They will be used in user::config::{normal,super} in node yaml files to
+#   # decide which users are present on a server, and which ones have sudo allowed.
+#   # Note that all users are part of 'all' groups
+#   roles: ['warrior', 'priest', 'orc']
+#   # default: bash
+#   shell: "/bin/zsh"
+#   # already hashed password.
+#   # http://thisdataguy.com/2014/06/10/understand-and-generate-unix-passwords
+#   # python -c 'import crypt; print crypt.crypt("passwerd", "$6$some_random_salt")'
+#   # empty/absent means no login via password allowed (other means possible)
+#   pass: '$6$pepper$P9Wt3.3Uqh9UZbvz5/6UPtHqa4KE/2aeyeXbKm0mpv36Z5aCBv0OQEZ1e.aKcPR6RBYvQIa/ToAfdUX6HjEOL1'
+#   # A PUBLIC rsa key.
+#   # Empty/absent means not key login allowed (other means possible)
+#   sshkey: 'a valid public ssh key string'
+
+
+  guillaume:
+    roles: ['data']
+    shell: "/bin/bash"
+    pass: "$6$GDH43O5m$FaJsdjUta1wXcITgKekNGUIfrqxYogWPVSRoCADGdwFe6H//gzj/VT4lcv55o3z.nrmNb3VbVvgcghz9Ae2Dw0"
+    sshkey: "a valid public ssh key string"
+
+  obiwan:
+    roles: ['sysadmin']
+    shell: "/bin/bash"
+    pass: "$6$GDH43O5m$FaJsdjUta1wXcITgKekNGUIfrqxYogWPVSRoCADGdwFe6H//gzj/VT4lcv55o3z.nrmNb3VbVvgcghz9Ae2Dw0"
+    sshkey: "a valid public ssh key string"
+
+# deleted users
+accounts::config::killedwithfire:
+ - kenny
+
+
+accounts::config::sudo: ['sysadmin']
+accounts::config::normal: ['data']
+
+### ... loads of other things after
