@@ -8,4 +8,6 @@ Example usage:
 ./timeout.py -w -t2
 ```
 
-See full documentation at thisdataguy.com/notyetpublished.
+See full documentation at [easily simulating connection timeouts].
+
+[easily simulating connection timeouts]:http://thisdataguy.com/2015/07/30/easily-simulating-connection-timeouts/
