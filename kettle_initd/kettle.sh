@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Start the carte server as a daemon, and helps managing it in a normal
 # (service carte start/stop/status) way.
@@ -49,7 +49,7 @@ function echo_success() { echo -en "\n[OK]"; }
 # if there is such a process, 1 otherwise
 FINDPID="pgrep -u $PDIUSER -n -f carte.sh";
 function _is_running() {
-    $FINDPID 1&gt;/dev/null
+    $FINDPID 1>/dev/null
     return $?
 }
 
@@ -61,7 +61,7 @@ function stop_carte() {
         echo
         return 1
     else
-        echo -n "Stoping $0..."
+        echo -n "Stopping $0..."
         # Finding the pid of carte.sh from $FINDPID. Killing it would leave its
         # child, the actual java process, running.
         # Find this java process via ps and kill it.
@@ -108,7 +108,7 @@ function start_carte() {
         # Make sure log files exist and are writable by $PDIUSER first
         touch $LOGOUT $LOGERR
         chown $PDIUSER:$PDIUSER $LOGOUT $LOGERR
-        su - $PDIUSER -c "cd $PDIROOT && (nohup sh ./carte.sh $(hostname -i) $CARTEPORT 0&lt;&- 1&gt;&gt;$LOGOUT 2&gt;&gt;$LOGERR &)"
+        su - $PDIUSER -c "cd $PDIROOT && (nohup sh ./carte.sh $(hostname -i) $CARTEPORT 0<&- 1>>$LOGOUT 2>>$LOGERR &)"
         sleep 1
         _is_running
         if [ $? -eq 0 ]; then
