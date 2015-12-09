@@ -152,7 +152,6 @@ parser.add_argument(
     help='Profile to use for credentials. Will use AWS_PROFILE environment variable if set.'
 )
 
-
 parser.add_argument(
     # https://aws.amazon.com/ec2/instance-types/
     '--instance',
@@ -197,9 +196,18 @@ logging.basicConfig(level=getattr(logging, args.loglevel.upper()))
 # For some reason, using only AWS_PROFILE fails (AWS was not able to
 # validate the provided access credentials), the profile needs to be explicitely
 # given.
-session = boto3.session.Session(profile_name='guillaume.cn')
+session = boto3.session.Session(profile_name=args.profile)
 print('Connecting to AWS with profile ' + session.profile_name + '.')
 ec2 = session.resource('ec2')
+
+# low level interface, used for a few specific calls
+ec2_client = ec2.meta.client
+regions = ec2_client.describe_regions()
+if 'Regions' in regions:
+    print('Regions available: ' + ', '.join(sorted(map(lambda x: x['RegionName'], regions['Regions']))))
+else:
+    print('No region available for those credentials. Problems will ensue.')
+
 
 
 def _dict2tags(tags):
@@ -365,14 +373,14 @@ def _destroy_resource(resource):
 
 def _tag_resource(r, tags=None):
     """
-    Add a default args.tag:args.role tag, as well as a Name:fullspawn.
+    Add a default args.tag:args.role tag, as well as a Name:args.tag_args.role.
     Note that updating a tag is the same as creating, so this function works for
     update as well.
 
     :param tags:
         optional `dict` overriding default tags.
     """
-    r.create_tags(Tags=_dict2tags(tags if tags else {args.tag: args.role, 'Name': 'fullspawn'}))
+    r.create_tags(Tags=_dict2tags(tags if tags else {args.tag: args.role, 'Name': args.tag + '_' + args.role}))
 
 
 def _tag_volume():
